@@ -5,7 +5,9 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const db = new Database(join(__dirname, 'owba.db'));
+// Use persistent disk path if available (Render), otherwise local
+const dbPath = process.env.DB_PATH || join(__dirname, 'owba.db');
+const db = new Database(dbPath);
 
 // Enable WAL mode for better performance
 db.pragma('journal_mode = WAL');

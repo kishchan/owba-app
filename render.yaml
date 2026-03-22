@@ -4,8 +4,14 @@ services:
     runtime: node
     buildCommand: npm run build
     startCommand: npm start
+    disk:
+      name: owba-data
+      mountPath: /var/data
+      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
       - key: JWT_SECRET
         generateValue: true
+      - key: DB_PATH
+        value: /var/data/owba.db

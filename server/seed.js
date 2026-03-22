@@ -121,7 +121,8 @@ const usedUsernames = new Set();
 for (let i = 0; i < playersData.length; i++) {
   const p = playersData[i];
   const owbaId = `OWBA-${String(i + 1).padStart(3, '0')}`;
-  const password = generatePassword();
+  // OWBA-038 (Cristian Chan) gets a fixed password; others are random
+  const password = i === 37 ? 'OwbaAdmin2026!' : generatePassword();
   const passwordHash = bcrypt.hashSync(password, 10);
 
   // OWBA-038 (Cristian Chan) is super_admin — keeps OWBA-038 as username

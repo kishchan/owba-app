@@ -50,7 +50,9 @@ export function initializeDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       tournament_id INTEGER NOT NULL REFERENCES tournaments(id),
       name TEXT NOT NULL,
-      placement INTEGER
+      placement INTEGER,
+      captain_id INTEGER REFERENCES players(id),
+      designator_id INTEGER REFERENCES players(id)
     );
 
     CREATE TABLE IF NOT EXISTS team_players (
@@ -106,6 +108,14 @@ export function initializeDatabase() {
     // Copy existing semifinal_multiplier to third_place_multiplier for existing data
     try { db.exec("UPDATE tournaments SET third_place_multiplier = semifinal_multiplier WHERE semifinal_multiplier IS NOT NULL"); } catch { /* ok */ }
     db.prepare("INSERT OR IGNORE INTO _migrations (name) VALUES ('add_3rd_4th_place')").run();
+  }
+
+  // Migration: add team captain and designator
+  const hasCaptainMigration = db.prepare("SELECT name FROM _migrations WHERE name = 'add_team_captain_designator'").get();
+  if (!hasCaptainMigration) {
+    try { db.exec("ALTER TABLE teams ADD COLUMN captain_id INTEGER REFERENCES players(id)"); } catch { /* exists */ }
+    try { db.exec("ALTER TABLE teams ADD COLUMN designator_id INTEGER REFERENCES players(id)"); } catch { /* exists */ }
+    db.prepare("INSERT OR IGNORE INTO _migrations (name) VALUES ('add_team_captain_designator')").run();
   }
 
   // Migration: add tournament category columns

@@ -96,13 +96,23 @@ router.get('/tournament/:tournamentId/players', authenticate, (req, res) => {
   }
 });
 
+// Helper: check if user is captain or designator for a player's team in a tournament
+function isCaptainOrDesignator(userId, teamId) {
+  const team = db.prepare('SELECT captain_id, designator_id FROM teams WHERE id = ?').get(teamId);
+  if (!team) return false;
+  return team.captain_id === userId || team.designator_id === userId;
+}
+
 // POST /add-game - Authenticated. Simplified score entry.
 // Player selects tournament, opponent, enters scores.
-// System auto-detects teams and creates/finds match.
+// Captains/designators can submit on behalf of their team members.
 router.post('/add-game', authenticate, (req, res) => {
   try {
-    const { tournament_id, opponent_id, my_score, opponent_score } = req.body;
-    const playerId = req.user.id;
+    const { tournament_id, opponent_id, my_score, opponent_score, player_id: onBehalfOf } = req.body;
+    const userId = req.user.id;
+
+    // If submitting on behalf of a team member
+    const playerId = onBehalfOf || userId;
 
     if (!tournament_id || !opponent_id || my_score === undefined || opponent_score === undefined) {
       return res.status(400).json({ error: 'tournament_id, opponent_id, my_score, and opponent_score are required' });
@@ -117,12 +127,24 @@ router.post('/add-game', authenticate, (req, res) => {
       return res.status(404).json({ error: 'Tournament not found' });
     }
 
+    // Only active tournaments allow score entry
+    if (tournament.status !== 'active') {
+      return res.status(400).json({ error: 'Can only add games to active tournaments' });
+    }
+
     // Find which team the player belongs to
     const myTeam = db.prepare(`
       SELECT t.id, t.name FROM teams t
       JOIN team_players tp ON tp.team_id = t.id
       WHERE t.tournament_id = ? AND tp.player_id = ? AND tp.status = 'accepted'
     `).get(tournament_id, playerId);
+
+    // If submitting on behalf, verify captain/designator role
+    if (onBehalfOf && onBehalfOf !== userId) {
+      if (!myTeam || !isCaptainOrDesignator(userId, myTeam.id)) {
+        return res.status(403).json({ error: 'Only team captains or point designators can submit scores on behalf of team members' });
+      }
+    }
 
     if (!myTeam) {
       return res.status(400).json({ error: 'You are not on a team in this tournament' });

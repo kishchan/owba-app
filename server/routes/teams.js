@@ -117,7 +117,7 @@ router.put('/:id', authenticate, requireAdmin, (req, res) => {
       return res.status(404).json({ error: 'Team not found' });
     }
 
-    const { name, placement, player_ids } = req.body;
+    const { name, placement, player_ids, captain_id, designator_id } = req.body;
 
     const updates = [];
     const values = [];
@@ -129,6 +129,14 @@ router.put('/:id', authenticate, requireAdmin, (req, res) => {
     if (placement !== undefined) {
       updates.push('placement = ?');
       values.push(placement);
+    }
+    if (captain_id !== undefined) {
+      updates.push('captain_id = ?');
+      values.push(captain_id || null);
+    }
+    if (designator_id !== undefined) {
+      updates.push('designator_id = ?');
+      values.push(designator_id || null);
     }
 
     if (updates.length > 0) {

@@ -17,6 +17,8 @@ export default function ManageTeams() {
   const [formName, setFormName] = useState('');
   const [formPlacement, setFormPlacement] = useState('');
   const [formSelectedPlayers, setFormSelectedPlayers] = useState([]);
+  const [formCaptainId, setFormCaptainId] = useState('');
+  const [formDesignatorId, setFormDesignatorId] = useState('');
   const [formError, setFormError] = useState('');
   const [formLoading, setFormLoading] = useState(false);
 
@@ -47,6 +49,8 @@ export default function ManageTeams() {
     setFormName('');
     setFormPlacement('');
     setFormSelectedPlayers([]);
+    setFormCaptainId('');
+    setFormDesignatorId('');
     setFormError('');
     setShowForm(true);
   };
@@ -56,6 +60,8 @@ export default function ManageTeams() {
     setFormName(team.name || '');
     setFormPlacement(team.placement || '');
     setFormSelectedPlayers(team.players ? team.players.map((p) => p.id) : []);
+    setFormCaptainId(team.captain_id || '');
+    setFormDesignatorId(team.designator_id || '');
     setFormError('');
     setShowForm(true);
   };
@@ -80,6 +86,8 @@ export default function ManageTeams() {
       const data = {
         name: formName.trim(),
         player_ids: formSelectedPlayers,
+        captain_id: formCaptainId ? parseInt(formCaptainId) : null,
+        designator_id: formDesignatorId ? parseInt(formDesignatorId) : null,
       };
       if (formPlacement) data.placement = parseInt(formPlacement);
 
@@ -176,6 +184,48 @@ export default function ManageTeams() {
                 />
               </div>
             </div>
+
+            {/* Captain & Designator */}
+            {formSelectedPlayers.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-text mb-1">Team Captain</label>
+                  <select
+                    value={formCaptainId}
+                    onChange={(e) => setFormCaptainId(e.target.value)}
+                    className="w-full bg-dark border border-[#333] text-text rounded-lg px-4 py-2 focus:outline-none focus:border-gold transition-colors"
+                  >
+                    <option value="">— None —</option>
+                    {formSelectedPlayers.map((pid) => {
+                      const p = allPlayers.find((pl) => pl.id === pid) ||
+                        (editingTeam?.players || []).find((pl) => pl.id === pid);
+                      return p ? (
+                        <option key={pid} value={pid}>{p.name} ({p.owba_id})</option>
+                      ) : null;
+                    })}
+                  </select>
+                  <p className="text-xs text-muted mt-1">Can submit scores for team members</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-text mb-1">Point Designator</label>
+                  <select
+                    value={formDesignatorId}
+                    onChange={(e) => setFormDesignatorId(e.target.value)}
+                    className="w-full bg-dark border border-[#333] text-text rounded-lg px-4 py-2 focus:outline-none focus:border-gold transition-colors"
+                  >
+                    <option value="">— None —</option>
+                    {formSelectedPlayers.map((pid) => {
+                      const p = allPlayers.find((pl) => pl.id === pid) ||
+                        (editingTeam?.players || []).find((pl) => pl.id === pid);
+                      return p ? (
+                        <option key={pid} value={pid}>{p.name} ({p.owba_id})</option>
+                      ) : null;
+                    })}
+                  </select>
+                  <p className="text-xs text-muted mt-1">Can submit scores for team members</p>
+                </div>
+              </div>
+            )}
 
             <div>
               <label className="block text-sm font-medium text-text mb-2">
@@ -290,6 +340,12 @@ export default function ManageTeams() {
                       {player.name}
                       {player.classification && (
                         <span className="text-xs text-muted">({player.classification})</span>
+                      )}
+                      {team.captain_id === player.id && (
+                        <span className="text-[10px] px-1.5 py-0.5 bg-gold/20 text-gold border border-gold/30 rounded-full font-semibold">C</span>
+                      )}
+                      {team.designator_id === player.id && (
+                        <span className="text-[10px] px-1.5 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full font-semibold">D</span>
                       )}
                     </div>
                   ))

@@ -241,18 +241,20 @@ function EventCard({ event, isAdmin, onEdit, onDelete }) {
       {/* Full-size image modal */}
       {showFullImage && event.image_url && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[9999] bg-black/85 flex items-center justify-center p-4"
+          style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}
           onClick={() => setShowFullImage(false)}
         >
-          <div className="relative max-w-3xl max-h-[90vh]">
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
             <img
               src={event.image_url}
               alt={event.title}
-              className="max-w-full max-h-[85vh] object-contain rounded-lg"
+              className="rounded-lg"
+              style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain' }}
             />
             <button
               onClick={() => setShowFullImage(false)}
-              className="absolute -top-3 -right-3 bg-dark border border-gold/40 text-light-gold rounded-full w-8 h-8 flex items-center justify-center text-lg hover:bg-gold hover:text-dark transition-colors"
+              className="absolute -top-3 -right-3 bg-dark border border-gold/40 text-light-gold rounded-full w-8 h-8 flex items-center justify-center text-lg hover:bg-gold hover:text-dark transition-colors z-10"
             >
               &times;
             </button>

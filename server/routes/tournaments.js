@@ -76,6 +76,7 @@ router.post('/', authenticate, requireAdmin, (req, res) => {
       max_players_per_team,
       lineup_size,
       race_to,
+      category,
       champion_multiplier,
       runner_up_multiplier,
       third_place_multiplier,
@@ -89,11 +90,16 @@ router.post('/', authenticate, requireAdmin, (req, res) => {
       return res.status(400).json({ error: 'Tournament name is required' });
     }
 
+    // Determine category weight
+    const cat = category || 'regular';
+    const catWeights = { regular: 1.0, ab: 0.8, unique_c: 0.6 };
+    const catWeight = catWeights[cat] || 1.0;
+
     const result = db.prepare(`
       INSERT INTO tournaments (name, game_type, max_players_per_team, lineup_size, race_to,
         champion_multiplier, runner_up_multiplier, third_place_multiplier, fourth_place_multiplier,
-        match_win_weight, game_win_weight, matches_played_points)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        match_win_weight, game_win_weight, matches_played_points, category, category_weight)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       name,
       game_type || '9-ball',
@@ -106,7 +112,9 @@ router.post('/', authenticate, requireAdmin, (req, res) => {
       fourth_place_multiplier || 1.00,
       match_win_weight || 0.5,
       game_win_weight || 0.3,
-      matches_played_points || 5
+      matches_played_points || 5,
+      cat,
+      catWeight
     );
 
     const tournament = db.prepare('SELECT * FROM tournaments WHERE id = ?').get(result.lastInsertRowid);
@@ -129,11 +137,17 @@ router.put('/:id', authenticate, requireAdmin, (req, res) => {
       'name', 'game_type', 'max_players_per_team', 'lineup_size', 'race_to', 'status',
       'champion_team_id', 'runner_up_team_id', 'third_place_team_id', 'fourth_place_team_id',
       'champion_multiplier', 'runner_up_multiplier', 'third_place_multiplier', 'fourth_place_multiplier',
-      'match_win_weight', 'game_win_weight', 'matches_played_points'
+      'match_win_weight', 'game_win_weight', 'matches_played_points', 'category', 'category_weight'
     ];
 
     const updates = [];
     const values = [];
+
+    // Auto-set category_weight when category changes
+    if (req.body.category !== undefined && req.body.category_weight === undefined) {
+      const catWeights = { regular: 1.0, ab: 0.8, unique_c: 0.6 };
+      req.body.category_weight = catWeights[req.body.category] || 1.0;
+    }
 
     for (const field of allowedFields) {
       if (req.body[field] !== undefined) {

@@ -41,6 +41,8 @@ export function initializeDatabase() {
       match_win_weight REAL DEFAULT 0.5,
       game_win_weight REAL DEFAULT 0.3,
       matches_played_points REAL DEFAULT 5,
+      category TEXT DEFAULT 'regular' CHECK(category IN ('regular', 'ab', 'unique_c')),
+      category_weight REAL DEFAULT 1.0,
       created_at TEXT DEFAULT (datetime('now'))
     );
 
@@ -104,6 +106,14 @@ export function initializeDatabase() {
     // Copy existing semifinal_multiplier to third_place_multiplier for existing data
     try { db.exec("UPDATE tournaments SET third_place_multiplier = semifinal_multiplier WHERE semifinal_multiplier IS NOT NULL"); } catch { /* ok */ }
     db.prepare("INSERT OR IGNORE INTO _migrations (name) VALUES ('add_3rd_4th_place')").run();
+  }
+
+  // Migration: add tournament category columns
+  const hasCategoryMigration = db.prepare("SELECT name FROM _migrations WHERE name = 'add_tournament_category'").get();
+  if (!hasCategoryMigration) {
+    try { db.exec("ALTER TABLE tournaments ADD COLUMN category TEXT DEFAULT 'regular'"); } catch { /* exists */ }
+    try { db.exec("ALTER TABLE tournaments ADD COLUMN category_weight REAL DEFAULT 1.0"); } catch { /* exists */ }
+    db.prepare("INSERT OR IGNORE INTO _migrations (name) VALUES ('add_tournament_category')").run();
   }
 
   // Migration: add image_url column to events table

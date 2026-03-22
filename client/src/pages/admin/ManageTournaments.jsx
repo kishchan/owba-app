@@ -33,6 +33,7 @@ export default function ManageTournaments() {
   const [formMatchWinWeight, setFormMatchWinWeight] = useState(0.5);
   const [formGameWinWeight, setFormGameWinWeight] = useState(0.3);
   const [formMatchesPlayedPoints, setFormMatchesPlayedPoints] = useState(5);
+  const [formCategory, setFormCategory] = useState('regular');
   const [formChampionTeamId, setFormChampionTeamId] = useState('');
   const [formRunnerUpTeamId, setFormRunnerUpTeamId] = useState('');
   const [formThirdPlaceTeamId, setFormThirdPlaceTeamId] = useState('');
@@ -71,6 +72,7 @@ export default function ManageTournaments() {
     setFormMatchWinWeight(0.5);
     setFormGameWinWeight(0.3);
     setFormMatchesPlayedPoints(5);
+    setFormCategory('regular');
     setFormChampionTeamId('');
     setFormRunnerUpTeamId('');
     setFormThirdPlaceTeamId('');
@@ -95,6 +97,7 @@ export default function ManageTournaments() {
     setFormMatchWinWeight(tournament.match_win_weight || 0.5);
     setFormGameWinWeight(tournament.game_win_weight || 0.3);
     setFormMatchesPlayedPoints(tournament.matches_played_points || 5);
+    setFormCategory(tournament.category || 'regular');
     setFormChampionTeamId(tournament.champion_team_id || '');
     setFormRunnerUpTeamId(tournament.runner_up_team_id || '');
     setFormThirdPlaceTeamId(tournament.third_place_team_id || '');
@@ -136,6 +139,7 @@ export default function ManageTournaments() {
         match_win_weight: parseFloat(formMatchWinWeight),
         game_win_weight: parseFloat(formGameWinWeight),
         matches_played_points: parseFloat(formMatchesPlayedPoints),
+        category: formCategory,
       };
 
       if (formChampionTeamId) data.champion_team_id = parseInt(formChampionTeamId);
@@ -253,6 +257,16 @@ export default function ManageTournaments() {
                   <option value="active">Active</option>
                   <option value="completed">Completed</option>
                 </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-text mb-1">Tournament Category</label>
+                <select value={formCategory} onChange={(e) => setFormCategory(e.target.value)}
+                  className="w-full bg-dark border border-[#333] text-text rounded-lg px-4 py-2 focus:outline-none focus:border-gold transition-colors">
+                  <option value="regular">Regular (×1.0 weight)</option>
+                  <option value="ab">A &amp; B Mixed (×0.8 weight)</option>
+                  <option value="unique_c">Unique C (×0.6 weight)</option>
+                </select>
+                <p className="text-xs text-muted mt-1">Affects how this tournament's scores contribute to overall rankings</p>
               </div>
             </div>
 
@@ -386,6 +400,7 @@ export default function ManageTournaments() {
                     <span>Max: <span className="text-text">{t.max_players_per_team || 7}</span></span>
                     <span>Lineup: <span className="text-text">{t.lineup_size || 3}</span></span>
                     <span>Race To: <span className="text-text">{t.race_to}</span></span>
+                    <span>Category: <span className="text-text">{t.category === 'ab' ? 'A&B' : t.category === 'unique_c' ? 'Unique C' : 'Regular'}</span></span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">

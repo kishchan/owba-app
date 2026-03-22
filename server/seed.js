@@ -118,20 +118,37 @@ const playerByName = {}; // lowercase name -> db id
 const playerByOwbaId = {}; // owba_id -> { id, name }
 const usedUsernames = new Set();
 
+// Generate random 4-digit OWBA IDs (OWBA-0038 reserved for Cristian Chan)
+const usedOwbaIds = new Set(['0038']);
+function generateOwbaId() {
+  let id;
+  do {
+    id = String(Math.floor(1000 + Math.random() * 9000)); // 1000-9999
+  } while (usedOwbaIds.has(id));
+  usedOwbaIds.add(id);
+  return id;
+}
+
+// Pre-generate OWBA IDs so team references work via index
+const owbaIds = [];
+for (let i = 0; i < playersData.length; i++) {
+  owbaIds.push(i === 37 ? '0038' : generateOwbaId());
+}
+
 for (let i = 0; i < playersData.length; i++) {
   const p = playersData[i];
-  const owbaId = `OWBA-${String(i + 1).padStart(3, '0')}`;
-  // OWBA-038 (Cristian Chan) gets a fixed password; others are random
+  const owbaId = `OWBA-${owbaIds[i]}`;
+  // OWBA-0038 (Cristian Chan) gets a fixed password; others are random
   const password = i === 37 ? 'OwbaAdmin2026!' : generatePassword();
   const passwordHash = bcrypt.hashSync(password, 10);
 
-  // OWBA-038 (Cristian Chan) is super_admin — keeps OWBA-038 as username
+  // OWBA-0038 (Cristian Chan) is super_admin — keeps OWBA-0038 as username
   const role = i === 37 ? 'super_admin' : 'player';
 
-  // Generate random username for all players except OWBA-038
+  // Generate random username for all players except OWBA-0038
   let username;
   if (i === 37) {
-    username = 'OWBA-038';
+    username = 'OWBA-0038';
   } else {
     do {
       username = generateUsername(p.name, i);
@@ -141,6 +158,8 @@ for (let i = 0; i < playersData.length; i++) {
 
   const result = insertPlayer.run(owbaId, p.name, p.classification, passwordHash, 1, role);
   const dbId = Number(result.lastInsertRowid);
+  // Map by index (0-based) for team references — old OWBA-001 = index 0, etc.
+  playerIdMap[`OWBA-${String(i + 1).padStart(3, '0')}`] = dbId;
   playerIdMap[owbaId] = dbId;
   playerByName[p.name.toLowerCase()] = dbId;
   playerByOwbaId[owbaId] = { id: dbId, name: p.name };
@@ -257,10 +276,10 @@ function resolvePlayer(firstName, teamName) {
 const tournamentResult = db.prepare(`
   INSERT INTO tournaments (name, game_type, max_players_per_team, lineup_size, race_to, status,
     champion_multiplier, runner_up_multiplier, third_place_multiplier, fourth_place_multiplier,
-    match_win_weight, game_win_weight, matches_played_points)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    match_win_weight, game_win_weight, matches_played_points, category, category_weight)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `).run('Stix & Shots 9 Ball Tournament', '9-ball', 7, 3, 5, 'completed',
-  1.20, 1.10, 1.05, 1.00, 0.5, 0.3, 5);
+  1.20, 1.10, 1.05, 1.00, 0.5, 0.3, 5, 'regular', 1.0);
 
 const tournamentId = Number(tournamentResult.lastInsertRowid);
 console.log(`Created tournament: Stix & Shots 9 Ball Tournament (ID: ${tournamentId})`);
@@ -753,7 +772,7 @@ console.log(`Teams: ${totalTeams}`);
 console.log(`Matches: ${totalMatches}`);
 console.log(`Games: ${totalGames} (${confirmedGames} confirmed)`);
 console.log(`Tournament: Stix & Shots 9 Ball Tournament (completed)`);
-console.log(`\nSuper Admin: OWBA-038 (Cristian Chan)`);
+console.log(`\nSuper Admin: OWBA-0038 (Cristian Chan)`);
 console.log(`Passwords saved to: player_passwords.txt`);
 // Seed events
 const insertEvent = db.prepare(`

@@ -138,6 +138,8 @@ router.get('/', (req, res) => {
     const overallScores = {};
 
     for (const tournament of tournaments) {
+      const tournamentData = db.prepare('SELECT * FROM tournaments WHERE id = ?').get(tournament.id);
+      const categoryWeight = tournamentData?.category_weight || 1.0;
       const rankings = calculateTournamentRankings(tournament.id);
 
       for (const r of rankings) {
@@ -164,7 +166,7 @@ router.get('/', (req, res) => {
         overall.matches_lost += r.matches_lost;
         overall.total_games_won += r.games_won;
         overall.total_games_played += r.total_games;
-        overall.score += r.score;
+        overall.score += r.score * categoryWeight;
         overall.tournaments_played++;
       }
     }

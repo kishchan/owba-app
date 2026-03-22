@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getPlayers } from '../api';
+import PlayerPhotoLightbox from '../components/PlayerPhotoLightbox';
+import { getPlayerPhotoOrPlaceholder, getPlayerInitials } from '../playerPhotos';
 
 function ClassBadge({ classification }) {
   const cls = classification?.toUpperCase();
@@ -43,6 +45,8 @@ export default function Classifications() {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [lightbox, setLightbox] = useState(null);
+  const openLightbox = (src, name) => setLightbox({ src, name });
 
   useEffect(() => {
     fetchPlayers();
@@ -147,14 +151,13 @@ export default function Classifications() {
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-felt-light border border-[#444] flex items-center justify-center text-xs font-bold text-muted">
-                          {(player.name || '?')
-                            .split(' ')
-                            .map((n) => n[0])
-                            .join('')
-                            .slice(0, 2)
-                            .toUpperCase()}
-                        </div>
+                        {(() => {
+                          const photoSrc = getPlayerPhotoOrPlaceholder(player.name, player.profile_picture);
+                          if (photoSrc) {
+                            return <img src={photoSrc} alt={player.name} className="w-8 h-8 rounded-full object-cover object-top border border-[#444] cursor-pointer" onClick={() => openLightbox(photoSrc, player.name)} />;
+                          }
+                          return <div className="w-8 h-8 rounded-full bg-felt-light border border-[#444] flex items-center justify-center text-xs font-bold text-muted">{getPlayerInitials(player.name)}</div>;
+                        })()}
                         <span className="font-semibold text-sm">{player.name}</span>
                       </div>
                       <ClassBadge classification={player.classification} />
@@ -175,6 +178,10 @@ export default function Classifications() {
         <div className="text-center py-12 text-muted">
           No players registered yet.
         </div>
+      )}
+
+      {lightbox && (
+        <PlayerPhotoLightbox src={lightbox.src} alt={lightbox.name} onClose={() => setLightbox(null)} />
       )}
     </div>
   );

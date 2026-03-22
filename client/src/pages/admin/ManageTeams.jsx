@@ -185,48 +185,6 @@ export default function ManageTeams() {
               </div>
             </div>
 
-            {/* Captain & Designator */}
-            {formSelectedPlayers.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text mb-1">Team Captain</label>
-                  <select
-                    value={formCaptainId}
-                    onChange={(e) => setFormCaptainId(e.target.value)}
-                    className="w-full bg-dark border border-[#333] text-text rounded-lg px-4 py-2 focus:outline-none focus:border-gold transition-colors"
-                  >
-                    <option value="">— None —</option>
-                    {formSelectedPlayers.map((pid) => {
-                      const p = allPlayers.find((pl) => pl.id === pid) ||
-                        (editingTeam?.players || []).find((pl) => pl.id === pid);
-                      return p ? (
-                        <option key={pid} value={pid}>{p.name} ({p.owba_id})</option>
-                      ) : null;
-                    })}
-                  </select>
-                  <p className="text-xs text-muted mt-1">Can submit scores for team members</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text mb-1">Point Designator</label>
-                  <select
-                    value={formDesignatorId}
-                    onChange={(e) => setFormDesignatorId(e.target.value)}
-                    className="w-full bg-dark border border-[#333] text-text rounded-lg px-4 py-2 focus:outline-none focus:border-gold transition-colors"
-                  >
-                    <option value="">— None —</option>
-                    {formSelectedPlayers.map((pid) => {
-                      const p = allPlayers.find((pl) => pl.id === pid) ||
-                        (editingTeam?.players || []).find((pl) => pl.id === pid);
-                      return p ? (
-                        <option key={pid} value={pid}>{p.name} ({p.owba_id})</option>
-                      ) : null;
-                    })}
-                  </select>
-                  <p className="text-xs text-muted mt-1">Can submit scores for team members</p>
-                </div>
-              </div>
-            )}
-
             <div>
               <label className="block text-sm font-medium text-text mb-2">
                 Select Players ({formSelectedPlayers.length} selected)
@@ -280,6 +238,48 @@ export default function ManageTeams() {
                 )}
               </div>
             </div>
+
+            {/* Captain & Designator — shown once players are selected */}
+            {formSelectedPlayers.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-text mb-1">Team Captain</label>
+                  <select
+                    value={formCaptainId}
+                    onChange={(e) => setFormCaptainId(e.target.value)}
+                    className="w-full bg-dark border border-[#333] text-text rounded-lg px-4 py-2 focus:outline-none focus:border-gold transition-colors"
+                  >
+                    <option value="">— None —</option>
+                    {formSelectedPlayers.map((pid) => {
+                      const p = allPlayers.find((pl) => pl.id === pid) ||
+                        (editingTeam?.players || []).find((pl) => pl.id === pid);
+                      return p ? (
+                        <option key={pid} value={pid}>{p.name} ({p.owba_id})</option>
+                      ) : null;
+                    })}
+                  </select>
+                  <p className="text-xs text-muted mt-1">Can submit scores for team members</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-text mb-1">Point Designator</label>
+                  <select
+                    value={formDesignatorId}
+                    onChange={(e) => setFormDesignatorId(e.target.value)}
+                    className="w-full bg-dark border border-[#333] text-text rounded-lg px-4 py-2 focus:outline-none focus:border-gold transition-colors"
+                  >
+                    <option value="">— None —</option>
+                    {formSelectedPlayers.map((pid) => {
+                      const p = allPlayers.find((pl) => pl.id === pid) ||
+                        (editingTeam?.players || []).find((pl) => pl.id === pid);
+                      return p ? (
+                        <option key={pid} value={pid}>{p.name} ({p.owba_id})</option>
+                      ) : null;
+                    })}
+                  </select>
+                  <p className="text-xs text-muted mt-1">Can submit scores for team members</p>
+                </div>
+              </div>
+            )}
 
             <div className="flex gap-2">
               <button

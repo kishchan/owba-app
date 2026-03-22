@@ -11,6 +11,8 @@ import {
   uploadAvatar,
 } from '../api';
 import { getPlayerPhotoOrPlaceholder } from '../playerPhotos';
+import PlayerPhotoLightbox from '../components/PlayerPhotoLightbox';
+import ImageCropper from '../components/ImageCropper';
 
 const classificationColors = {
   A: 'bg-red-600/80 text-white',
@@ -31,6 +33,8 @@ export default function MyPage() {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [avatarMsg, setAvatarMsg] = useState({ type: '', text: '' });
+  const [cropperSrc, setCropperSrc] = useState(null);
+  const [showLightbox, setShowLightbox] = useState(false);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -84,21 +88,27 @@ export default function MyPage() {
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    e.target.value = '';
     setAvatarMsg({ type: '', text: '' });
     if (!file.type.startsWith('image/')) {
       setAvatarMsg({ type: 'error', text: 'Please select an image file.' });
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      setAvatarMsg({ type: 'error', text: 'Image must be under 2MB.' });
-      return;
-    }
     const reader = new FileReader();
     reader.onload = (ev) => {
-      setAvatarPreview(ev.target.result);
-      handleUpload(ev.target.result);
+      setCropperSrc(ev.target.result);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleCropConfirm = (croppedDataUrl) => {
+    setCropperSrc(null);
+    setAvatarPreview(croppedDataUrl);
+    handleUpload(croppedDataUrl);
+  };
+
+  const handleCropCancel = () => {
+    setCropperSrc(null);
   };
 
   const handleUpload = async (imageData) => {
@@ -190,10 +200,13 @@ export default function MyPage() {
               className="hidden"
             />
             <button
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => {
+                if (displayAvatar) setShowLightbox(true);
+                else fileInputRef.current?.click();
+              }}
               disabled={uploading}
               className="relative rounded-full focus:outline-none focus:ring-2 focus:ring-gold"
-              title="Change profile picture"
+              title={displayAvatar ? 'View photo' : 'Upload photo'}
             >
               {displayAvatar ? (
                 <img
@@ -208,10 +221,16 @@ export default function MyPage() {
               )}
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+                {displayAvatar ? (
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                ) : (
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                )}
               </div>
               {uploading && (
                 <div className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center">
@@ -219,6 +238,20 @@ export default function MyPage() {
                 </div>
               )}
             </button>
+            {/* Camera button to change photo */}
+            {displayAvatar && (
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="absolute -bottom-1 -left-1 bg-felt-lighter border border-gold/40 rounded-full w-7 h-7 flex items-center justify-center text-gold hover:bg-green/30 transition-colors"
+                title="Change picture"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+            )}
             {avatarPreview && avatarPreview.startsWith('data:') && (
               <button
                 onClick={handleRemovePicture}
@@ -472,6 +505,22 @@ export default function MyPage() {
           </div>
         )}
       </section>
+
+      {showLightbox && displayAvatar && (
+        <PlayerPhotoLightbox
+          src={displayAvatar}
+          alt={player.name || user?.name}
+          onClose={() => setShowLightbox(false)}
+        />
+      )}
+
+      {cropperSrc && (
+        <ImageCropper
+          imageSrc={cropperSrc}
+          onConfirm={handleCropConfirm}
+          onCancel={handleCropCancel}
+        />
+      )}
     </div>
   );
 }

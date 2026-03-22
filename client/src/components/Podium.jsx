@@ -1,11 +1,17 @@
 import { getPlayerPhotoOrPlaceholder, getPlayerInitials } from '../playerPhotos';
 
-function PodiumAvatar({ name, profilePicture, rank }) {
+function PodiumAvatar({ name, profilePicture, rank, onAvatarClick }) {
   const sizes = { 1: 'w-[130px] h-[130px]', 2: 'w-[100px] h-[100px]', 3: 'w-[90px] h-[90px]' };
   const borders = { 1: 'border-gold shadow-[0_0_24px_rgba(201,168,76,0.5)]', 2: 'border-silver', 3: 'border-bronze' };
   const src = getPlayerPhotoOrPlaceholder(name, profilePicture);
   if (src) {
-    return <img src={src} alt={name} className={`${sizes[rank]} rounded-full object-cover object-top border-4 ${borders[rank]}`} />;
+    return (
+      <img
+        src={src} alt={name}
+        className={`${sizes[rank]} rounded-full object-cover object-top border-4 ${borders[rank]} cursor-pointer`}
+        onClick={(e) => { e.stopPropagation(); onAvatarClick && onAvatarClick(src, name); }}
+      />
+    );
   }
   const initials = getPlayerInitials(name);
   return (
@@ -15,7 +21,7 @@ function PodiumAvatar({ name, profilePicture, rank }) {
   );
 }
 
-export default function Podium({ players }) {
+export default function Podium({ players, onAvatarClick }) {
   if (!players || players.length < 3) return null;
 
   const podiumOrder = [players[1], players[0], players[2]];
@@ -53,6 +59,7 @@ export default function Podium({ players }) {
               name={player.name}
               profilePicture={player.profile_picture}
               rank={ranks[index]}
+              onAvatarClick={onAvatarClick}
             />
             <div className={`absolute bottom-0 right-0 w-[30px] h-[30px] rounded-full flex items-center justify-center font-black text-xs border-2 border-dark ${
               ranks[index] === 1 ? 'bg-gold text-dark' :

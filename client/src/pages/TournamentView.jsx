@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTournaments, getTournament, getTeams, getMatches, getTournamentRankings } from '../api';
 import Podium from '../components/Podium';
+import PlayerPhotoLightbox from '../components/PlayerPhotoLightbox';
+import { getPlayerPhotoOrPlaceholder, getPlayerInitials } from '../playerPhotos';
 
 const statusColors = {
   upcoming: 'bg-blue-600 text-blue-100',
@@ -99,6 +101,8 @@ function ExpandedTournament({ tournamentId }) {
   const [rankings, setRankings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [lightbox, setLightbox] = useState(null);
+  const openLightbox = (src, name) => setLightbox({ src, name });
 
   useEffect(() => {
     fetchData();
@@ -150,7 +154,7 @@ function ExpandedTournament({ tournamentId }) {
       <ChampionBanner tournament={tournament} teams={teams} />
 
       {/* Top 3 Podium */}
-      {rankings.length >= 3 && <Podium players={rankings.slice(0, 3)} />}
+      {rankings.length >= 3 && <Podium players={rankings.slice(0, 3)} onAvatarClick={openLightbox} />}
 
       {/* Full Player Rankings Table */}
       {rankings.length > 0 && (
@@ -194,6 +198,13 @@ function ExpandedTournament({ tournamentId }) {
                         </td>
                         <td className="py-3 px-2 sm:px-3">
                           <div className="flex items-center gap-2">
+                            {(() => {
+                              const photoSrc = getPlayerPhotoOrPlaceholder(player.name, player.profile_picture);
+                              if (photoSrc) {
+                                return <img src={photoSrc} alt={player.name} className="w-[34px] h-[34px] rounded-full object-cover object-top border-2 border-green cursor-pointer" onClick={() => openLightbox(photoSrc, player.name)} />;
+                              }
+                              return <div className="w-[34px] h-[34px] rounded-full bg-felt-lighter border-2 border-green flex items-center justify-center text-xs font-bold text-muted">{getPlayerInitials(player.name)}</div>;
+                            })()}
                             <span className="font-semibold">{player.name}</span>
                             <ClassBadge classification={player.classification} />
                           </div>
@@ -283,6 +294,9 @@ function ExpandedTournament({ tournamentId }) {
             </div>
           </div>
         </div>
+      )}
+      {lightbox && (
+        <PlayerPhotoLightbox src={lightbox.src} alt={lightbox.name} onClose={() => setLightbox(null)} />
       )}
     </div>
   );

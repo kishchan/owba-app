@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import { getRankings } from '../api';
 import Podium from '../components/Podium';
+import PlayerPhotoLightbox from '../components/PlayerPhotoLightbox';
 import { getPlayerPhotoOrPlaceholder, getPlayerInitials } from '../playerPhotos';
 
-function PlayerAvatar({ name, profilePicture }) {
+function PlayerAvatar({ name, profilePicture, onClick }) {
   const src = getPlayerPhotoOrPlaceholder(name, profilePicture);
   if (src) {
-    return <img src={src} alt={name} className="w-[34px] h-[34px] rounded-full object-cover object-top border-2 border-green" />;
+    return (
+      <img
+        src={src} alt={name}
+        className="w-[34px] h-[34px] rounded-full object-cover object-top border-2 border-green cursor-pointer"
+        onClick={(e) => { e.stopPropagation(); onClick && onClick(src, name); }}
+      />
+    );
   }
   const initials = getPlayerInitials(name);
   return (
@@ -34,6 +41,8 @@ export default function Rankings() {
   const [rankings, setRankings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [lightbox, setLightbox] = useState(null);
+  const openLightbox = (src, name) => setLightbox({ src, name });
 
   useEffect(() => {
     fetchRankings();
@@ -85,7 +94,7 @@ export default function Rankings() {
       </div>
 
       {/* Podium for top 3 */}
-      {rankings.length >= 3 && <Podium players={rankings.slice(0, 3)} />}
+      {rankings.length >= 3 && <Podium players={rankings.slice(0, 3)} onAvatarClick={openLightbox} />}
 
       {/* Section title */}
       <div className="text-sm font-bold uppercase tracking-widest text-gold border-l-4 border-gold pl-3 mb-6">
@@ -128,7 +137,7 @@ export default function Rankings() {
                     </td>
                     <td className="py-3 px-2 sm:px-3">
                       <div className="flex items-center gap-3">
-                        <PlayerAvatar name={player.name} profilePicture={player.profile_picture} />
+                        <PlayerAvatar name={player.name} profilePicture={player.profile_picture} onClick={openLightbox} />
                         <span className="font-semibold">{player.name}</span>
                       </div>
                     </td>
@@ -166,6 +175,10 @@ export default function Rankings() {
           </div>
         )}
       </div>
+
+      {lightbox && (
+        <PlayerPhotoLightbox src={lightbox.src} alt={lightbox.name} onClose={() => setLightbox(null)} />
+      )}
     </div>
   );
 }

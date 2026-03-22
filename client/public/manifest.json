@@ -1,0 +1,9 @@
+{
+  "name": "OWBA - Orange Walk Billiards Association",
+  "short_name": "OWBA",
+  "theme_color": "#10b981",
+  "background_color": "#0f1117",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": []
+}

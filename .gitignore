@@ -1,0 +1,11 @@
+node_modules/
+client/dist/
+server/owba.db
+server/owba.db-wal
+server/owba.db-shm
+server/uploads/
+.env
+*.log
+.DS_Store
+player_passwords.txt
+backup-original-surge/

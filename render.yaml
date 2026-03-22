@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: owba-app
+    runtime: node
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+    disk:
+      name: owba-data
+      mountPath: /opt/render/project/src/server/data
+      sizeGB: 1

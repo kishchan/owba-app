@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpeg" href="owba_logo.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OWBA – Orange Walk Billiards Association</title>
+  <style>
+    :root {
+      --green: #1a6b3a;
+      --dark-green: #0f4225;
+      --gold: #c9a84c;
+      --light-gold: #f0d070;
+      --dark: #0d0d0d;
+      --gray: #1e1e1e;
+      --light-gray: #2e2e2e;
+      --text: #f0f0f0;
+      --muted: #aaa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--dark-green) 0%, var(--green) 60%, var(--dark-green) 100%);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 3px solid var(--gold);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .logo-img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 0 16px rgba(201,168,76,0.4);
+      flex-shrink: 0;
+    }
+    .header-text h1 { font-size: 2rem; font-weight: 800; color: var(--light-gold); letter-spacing: 2px; text-transform: uppercase; }
+    .header-text p { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin-top: 2px; }
+    nav { margin-left: auto; display: flex; gap: 12px; flex-wrap: wrap; }
+    nav a { color: var(--light-gold); text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 8px 16px; border: 1px solid var(--gold); border-radius: 6px; transition: all 0.2s; }
+    nav a:hover, nav a.active { background: var(--gold); color: var(--dark); }
+
+    /* HERO */
+    .hero { background: linear-gradient(180deg, var(--dark-green) 0%, var(--dark) 100%); padding: 32px 40px 20px; text-align: center; border-bottom: 1px solid #333; }
+    .hero h2 { font-size: 1.5rem; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 6px; }
+    .hero p { color: var(--muted); font-size: 0.9rem; }
+
+    /* SECTION TITLE */
+    .section-title { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); border-left: 4px solid var(--gold); padding-left: 12px; margin-bottom: 30px; }
+
+    /* TOP 10 */
+    .top10-section { padding: 40px; max-width: 1200px; margin: 0 auto; }
+
+    /* PODIUM */
+    .podium { display: flex; justify-content: center; align-items: flex-end; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+    .podium-card { display: flex; flex-direction: column; align-items: center; }
+    .podium-card.rank-1 { order: 2; }
+    .podium-card.rank-2 { order: 1; }
+    .podium-card.rank-3 { order: 3; }
+    .podium-photo-wrap { position: relative; margin-bottom: 10px; }
+    .podium-photo { border-radius: 50%; object-fit: cover; object-position: top; border: 4px solid var(--muted); display: block; background: #333; }
+    .rank-1 .podium-photo { width: 130px; height: 130px; border-color: var(--gold); box-shadow: 0 0 24px rgba(201,168,76,0.5); }
+    .rank-2 .podium-photo { width: 100px; height: 100px; border-color: #c0c0c0; }
+    .rank-3 .podium-photo { width: 90px;  height: 90px;  border-color: #cd7f32; }
+    .rank-badge { position: absolute; bottom: 0; right: 0; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem; border: 2px solid var(--dark); }
+    .rank-1 .rank-badge { background: var(--gold); color: var(--dark); }
+    .rank-2 .rank-badge { background: #c0c0c0; color: var(--dark); }
+    .rank-3 .rank-badge { background: #cd7f32; color: #fff; }
+    .podium-name { font-weight: 700; font-size: 1rem; text-align: center; margin-bottom: 2px; }
+    .rank-1 .podium-name { font-size: 1.15rem; color: var(--light-gold); }
+    .podium-team { font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; }
+    .podium-score { font-size: 0.85rem; color: var(--gold); font-weight: 700; }
+    .podium-stand { width: 100%; border-radius: 6px 6px 0 0; margin-top: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 900; color: rgba(255,255,255,0.2); }
+    .rank-1 .podium-stand { background: linear-gradient(180deg, var(--gold) 0%, #7a5800 100%); height: 80px; width: 145px; }
+    .rank-2 .podium-stand { background: linear-gradient(180deg, #c0c0c0 0%, #555 100%); height: 60px; width: 115px; }
+    .rank-3 .podium-stand { background: linear-gradient(180deg, #cd7f32 0%, #5c3000 100%); height: 44px; width: 105px; }
+
+    /* CARDS 4-10 */
+    .top10-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 50px; }
+    .player-card { background: var(--gray); border: 1px solid #333; border-radius: 12px; padding: 20px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.2s, border-color 0.2s; position: relative; }
+    .player-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+    .player-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--gold)); border-radius: 12px 12px 0 0; }
+    .card-rank { position: absolute; top: 10px; left: 12px; font-size: 0.75rem; font-weight: 800; color: var(--gold); letter-spacing: 1px; }
+    .card-photo { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: top; border: 3px solid var(--green); background: #333; }
+    .card-name { font-weight: 700; font-size: 0.95rem; text-align: center; }
+    .card-team { font-size: 0.75rem; color: var(--muted); text-align: center; }
+    .card-score { font-size: 0.82rem; color: var(--gold); font-weight: 700; }
+    .card-wins { font-size: 0.75rem; background: var(--light-gray); padding: 3px 10px; border-radius: 20px; color: var(--muted); }
+
+
+    .class-badge { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: 0.72rem; font-weight: 800; letter-spacing: 1px; }
+    .class-a { background: rgba(201,168,76,0.2); color: var(--light-gold); border: 1px solid rgba(201,168,76,0.4); }
+    .class-b { background: rgba(26,107,58,0.25); color: #5de08a; border: 1px solid rgba(26,107,58,0.4); }
+    .class-c { background: rgba(100,100,200,0.2); color: #8ab4f8; border: 1px solid rgba(100,100,200,0.3); }
+
+    /* FULL TABLE */
+    .rankings-section { padding: 0 40px 40px; max-width: 1200px; margin: 0 auto; }
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid #333; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead { background: linear-gradient(90deg, var(--dark-green), var(--green)); }
+    thead th { padding: 14px 16px; text-align: left; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--light-gold); white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid #2a2a2a; transition: background 0.15s; }
+    tbody tr:hover { background: rgba(255,255,255,0.04); }
+    tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+    tbody td { padding: 11px 16px; vertical-align: middle; }
+    .td-rank { font-weight: 800; color: var(--gold); width: 50px; }
+    .td-rank.r1 { color: var(--gold); }
+    .td-rank.r2 { color: #c0c0c0; }
+    .td-rank.r3 { color: #cd7f32; }
+    .td-player { display: flex; align-items: center; gap: 12px; }
+    .td-player img { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--green); background: #333; object-fit: cover; object-position: top; }
+    .td-player-name { font-weight: 600; }
+    .td-player-sub { font-size: 0.73rem; color: var(--muted); }
+    .points-col { font-weight: 700; color: var(--light-gold); }
+
+    /* TEAMS SECTION */
+    .teams-section { padding: 0 40px 60px; max-width: 1200px; margin: 0 auto; }
+    .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .team-card { background: var(--gray); border: 1px solid #333; border-radius: 12px; padding: 20px; position: relative; transition: border-color 0.2s; }
+    .team-card:hover { border-color: var(--gold); }
+    .team-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--gold)); border-radius: 12px 12px 0 0; }
+    .team-rank-badge { font-size: 0.75rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; }
+    .team-name { font-size: 1.05rem; font-weight: 800; margin-bottom: 10px; }
+    .team-stat { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--muted); padding: 4px 0; border-bottom: 1px solid #2a2a2a; }
+    .team-stat:last-child { border: none; }
+    .team-stat span:last-child { color: var(--text); font-weight: 600; }
+    .team-pts { font-size: 1.4rem; font-weight: 900; color: var(--gold); margin-top: 10px; text-align: right; }
+
+    /* FOOTER */
+    footer { background: var(--dark-green); border-top: 3px solid var(--gold); padding: 24px 40px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+    footer strong { color: var(--light-gold); }
+
+    /* ── HAMBURGER ── */
+    .nav-toggle {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: 1px solid var(--gold); border-radius: 6px;
+      padding: 8px 10px; cursor: pointer; margin-left: auto; flex-shrink: 0;
+    }
+    .nav-toggle span {
+      display: block; width: 22px; height: 2px; background: var(--light-gold); border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      /* Header */
+      header { flex-wrap: wrap; padding: 14px 16px; gap: 10px; align-items: center; }
+      .logo-img { width: 48px; height: 48px; }
+      .header-text { flex: 1; min-width: 0; }
+      .header-text h1 { font-size: 1.15rem; letter-spacing: 1px; }
+      .header-text p { font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .nav-toggle { display: flex; flex-shrink: 0; }
+      /* Nav drops below header row when open */
+      nav { order: 10; width: 100%; display: none; flex-direction: column; gap: 8px; padding-top: 4px; }
+      nav.open { display: flex; }
+      nav a { text-align: center; padding: 10px; font-size: 0.88rem; }
+
+      /* Hero */
+      .hero { padding: 20px 16px 14px; }
+      .hero h2 { font-size: 1.1rem; letter-spacing: 1px; }
+      .hero p { font-size: 0.8rem; }
+
+      /* Section padding */
+      .top10-section, .rankings-section, .teams-section,
+      .events-section, .page-wrap { padding: 20px 14px 30px; }
+
+      /* Podium — scale down */
+      .rank-1 .podium-photo { width: 90px; height: 90px; }
+      .rank-2 .podium-photo { width: 72px; height: 72px; }
+      .rank-3 .podium-photo { width: 64px; height: 64px; }
+      .rank-1 .podium-stand { height: 56px; width: 104px; }
+      .rank-2 .podium-stand { height: 42px; width: 84px; }
+      .rank-3 .podium-stand { height: 30px; width: 76px; }
+      .podium { gap: 10px; }
+      .podium-name { font-size: 0.85rem; }
+
+      /* Top-10 cards — 2 columns */
+      .top10-grid { grid-template-columns: 1fr; gap: 10px; width: 66.67%; margin: 0 auto; }
+      .card-photo { width: 52px; height: 52px; }
+
+      /* Tables — horizontal scroll + hide bulky columns */
+      .table-wrap { -webkit-overflow-scrolling: touch; }
+      .table-wrap::before {
+        content: '← swipe to see more →';
+        display: block; text-align: center;
+        font-size: 0.72rem; color: var(--muted); padding: 6px 0;
+      }
+      table { font-size: 0.8rem; }
+      thead th, tbody td { padding: 9px 10px; }
+      /* Hide least-critical columns on very small screens */
+      .col-hide { display: none; }
+
+      /* Teams grid — 2 columns */
+      .teams-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+      /* Events grid — single column */
+      .events-grid { grid-template-columns: 1fr; }
+
+      /* Tournament layout — stack */
+      .tournament-layout { flex-direction: column; }
+      .tournament-sidebar { width: 100%; display: flex; flex-wrap: wrap; gap: 8px; }
+      .tournament-btn { width: auto; flex: 1; min-width: 140px; }
+      .inner-tabs { width: 100%; }
+      .inner-tab { flex: 1; text-align: center; padding: 10px 8px; font-size: 0.82rem; }
+
+      /* Rules page */
+      .rule-body { padding-left: 16px; }
+
+      /* Footer */
+      footer { padding: 18px 16px; font-size: 0.8rem; }
+    }
+
+    @media (max-width: 420px) {
+      .top10-grid { grid-template-columns: 1fr; width: 66.67%; margin: 0 auto; }
+      .teams-grid { grid-template-columns: 1fr; }
+      .podium { flex-wrap: wrap; justify-content: center; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html"><img class="logo-img" src="owba_logo.jpg" alt="OWBA Logo"></a>
+  <div class="header-text">
+    <h1>OWBA</h1>
+    <p>Orange Walk Billiards Association &mdash; Official Rankings</p>
+  </div>
+  <button class="nav-toggle" id="navToggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <nav>
+    <a href="index.html" class="active">Rankings</a>
+    <a href="classifications.html">Classifications</a>
+    <a href="tournaments.html">Tournaments</a>
+    <a href="rules.html">Rules</a>
+    <a href="events.html">Events</a>
+    <a href="documents.html">Documents &amp; Forms</a>
+    <a href="live.html">Live Scores</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>🏆 2026 Season Standings</h2>
+  <p>49 Registered Players &nbsp;|&nbsp; Combined Tournament Rankings &nbsp;|&nbsp; Updated: March 2, 2026</p>
+</div>
+
+<!-- TOP 10 PLAYERS -->
+<section class="top10-section" id="players">
+  <div class="section-title">🥇 Top 10 Players</div>
+
+  <!-- PODIUM -->
+  <div class="podium">
+
+    <!-- 2nd: Daniel -->
+    <div class="podium-card rank-2">
+      <div class="podium-photo-wrap">
+        <img class="podium-photo" src="players/Daniel Chata.jpeg" alt="Daniel">
+        <div class="rank-badge">2</div>
+      </div>
+      <div class="podium-name">Daniel Chata</div>
+      <div class="podium-score">Score: 110.3</div>
+      <div style="margin-top:5px"><span class="class-badge class-b">Class B</span></div>
+      <div class="podium-stand">2</div>
+    </div>
+
+    <!-- 1st: Miguel -->
+    <div class="podium-card rank-1">
+      <div class="podium-photo-wrap">
+        <img class="podium-photo" src="players/Miguel Chata.jpeg" alt="Miguel">
+        <div class="rank-badge">1</div>
+      </div>
+      <div class="podium-name">Miguel Chata</div>
+      <div class="podium-score">Score: 114.2</div>
+      <div style="margin-top:5px"><span class="class-badge class-b">Class B</span></div>
+      <div class="podium-stand">1</div>
+    </div>
+
+    <!-- 3rd: Nain -->
+    <div class="podium-card rank-3">
+      <div class="podium-photo-wrap">
+        <img class="podium-photo" src="players/Nain Rosado.jpeg" alt="Nain">
+        <div class="rank-badge">3</div>
+      </div>
+      <div class="podium-name">Nain Rosado</div>
+      <div class="podium-score">Score: 108.4</div>
+      <div style="margin-top:5px"><span class="class-badge class-a">Class A</span></div>
+      <div class="podium-stand">3</div>
+    </div>
+
+  </div>
+
+  <!-- RANKS 4–10 CARDS -->
+  <div class="top10-grid">
+
+    <div class="player-card">
+      <div class="card-rank">#4</div>
+      <img class="card-photo" src="players/Zair P.jpeg" alt="Zair P.">
+      <div class="card-name">Zair Perera</div>
+      <span class="class-badge class-b">Class B</span>
+      <div class="card-score">101.5 pts</div>
+      <div class="card-wins">W: 6 &nbsp;|&nbsp; L: 1</div>
+    </div>
+
+    <div class="player-card">
+      <div class="card-rank">#5</div>
+      <img class="card-photo" src="players/Ernest Arzu.jpeg" alt="Ernest">
+      <div class="card-name">Ernest Arzu</div>
+      <span class="class-badge class-a">Class A</span>
+      <div class="card-score">101.0 pts</div>
+      <div class="card-wins">W: 6 &nbsp;|&nbsp; L: 2</div>
+    </div>
+
+    <div class="player-card">
+      <div class="card-rank">#6</div>
+      <img class="card-photo" src="players/Javier.jpeg" alt="Javier">
+      <div class="card-name">Javier Chata</div>
+      <span class="class-badge class-a">Class A</span>
+      <div class="card-score">97.2 pts</div>
+      <div class="card-wins">W: 4 &nbsp;|&nbsp; L: 4</div>
+    </div>
+
+    <div class="player-card">
+      <div class="card-rank">#7</div>
+      <img class="card-photo" src="players/Jose Chata.jpeg" alt="Jose">
+      <div class="card-name">Jose Chata</div>
+      <span class="class-badge class-a">Class A</span>
+      <div class="card-score">94.7 pts</div>
+      <div class="card-wins">W: 5 &nbsp;|&nbsp; L: 0</div>
+    </div>
+
+    <div class="player-card">
+      <div class="card-rank">#8</div>
+      <img class="card-photo" src="players/Argel P.jpeg" alt="Argel">
+      <div class="card-name">Argel Perera</div>
+      <span class="class-badge class-b">Class B</span>
+      <div class="card-score">93.3 pts</div>
+      <div class="card-wins">W: 5 &nbsp;|&nbsp; L: 3</div>
+    </div>
+
+    <div class="player-card">
+      <div class="card-rank">#9</div>
+      <img class="card-photo" src="players/Heraldo.jpeg" alt="Heraldo">
+      <div class="card-name">Heraldo Carballo</div>
+      <span class="class-badge class-a">Class A</span>
+      <div class="card-score">89.5 pts</div>
+      <div class="card-wins">W: 5 &nbsp;|&nbsp; L: 3</div>
+    </div>
+
+    <div class="player-card">
+      <div class="card-rank">#10</div>
+      <img class="card-photo" src="players/Kenneth.jpeg" alt="Kenneth">
+      <div class="card-name">Kenneth Dawson</div>
+      <span class="class-badge class-b">Class B</span>
+      <div class="card-score">89.0 pts</div>
+      <div class="card-wins">W: 4 &nbsp;|&nbsp; L: 5</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FULL PLAYER RANKINGS TABLE -->
+<section class="rankings-section">
+  <div class="section-title">📋 Overall Player Rankings <span style="font-size:0.75rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— combined across all tournaments</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Class</th>
+          <th>Player</th>
+          <th>Played</th>
+          <th>Won</th>
+          <th>Lost</th>
+          <th class="col-hide">Match Win%</th>
+          <th class="col-hide">Game Win%</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="td-rank r1">1</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="players/Miguel Chata.jpeg" alt=""><div><div class="td-player-name">Miguel Chata</div></div></div></td><td>8</td><td>6</td><td>2</td><td class="col-hide">75.0%</td><td class="col-hide">59.0%</td><td class="points-col">114.2</td></tr>
+        <tr><td class="td-rank r2">2</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="players/Daniel Chata.jpeg" alt=""><div><div class="td-player-name">Daniel Chata</div></div></div></td><td>6</td><td>5</td><td>1</td><td class="col-hide">83.3%</td><td class="col-hide">67.5%</td><td class="points-col">110.3</td></tr>
+        <tr><td class="td-rank r3">3</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="players/Nain Rosado.jpeg" alt=""><div><div class="td-player-name">Nain Rosado</div></div></div></td><td>7</td><td>6</td><td>1</td><td class="col-hide">85.7%</td><td class="col-hide">68.8%</td><td class="points-col">108.4</td></tr>
+        <tr><td class="td-rank">4</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="players/Zair P.jpeg" alt=""><div><div class="td-player-name">Zair Perera</div></div></div></td><td>7</td><td>6</td><td>1</td><td class="col-hide">85.7%</td><td class="col-hide">62.7%</td><td class="points-col">101.5</td></tr>
+        <tr><td class="td-rank">5</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="players/Ernest Arzu.jpeg" alt=""><div><div class="td-player-name">Ernest Arzu</div></div></div></td><td>8</td><td>6</td><td>2</td><td class="col-hide">75.0%</td><td class="col-hide">62.3%</td><td class="points-col">101.0</td></tr>
+        <tr><td class="td-rank">6</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="players/Javier.jpeg" alt=""><div><div class="td-player-name">Javier Chata</div></div></div></td><td>8</td><td>4</td><td>4</td><td class="col-hide">50.0%</td><td class="col-hide">53.4%</td><td class="points-col">97.2</td></tr>
+        <tr><td class="td-rank">7</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="players/Jose Chata.jpeg" alt=""><div><div class="td-player-name">Jose Chata</div></div></div></td><td>5</td><td>5</td><td>0</td><td class="col-hide">100.0%</td><td class="col-hide">65.8%</td><td class="points-col">94.7</td></tr>
+        <tr><td class="td-rank">8</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="players/Argel P.jpeg" alt=""><div><div class="td-player-name">Argel Perera</div></div></div></td><td>8</td><td>5</td><td>3</td><td class="col-hide">62.5%</td><td class="col-hide">58.9%</td><td class="points-col">93.3</td></tr>
+        <tr><td class="td-rank">9</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="players/Heraldo.jpeg" alt=""><div><div class="td-player-name">Heraldo Carballo</div></div></div></td><td>8</td><td>5</td><td>3</td><td class="col-hide">62.5%</td><td class="col-hide">60.7%</td><td class="points-col">89.5</td></tr>
+        <tr><td class="td-rank">10</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="players/Kenneth.jpeg" alt=""><div><div class="td-player-name">Kenneth Dawson</div></div></div></td><td>9</td><td>4</td><td>5</td><td class="col-hide">44.4%</td><td class="col-hide">45.7%</td><td class="points-col">89.0</td></tr>
+        <tr><td class="td-rank">11</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="players/Ricardo.jpeg" alt=""><div><div class="td-player-name">Ricardo Carcaño</div></div></div></td><td>5</td><td>4</td><td>1</td><td class="col-hide">80.0%</td><td class="col-hide">65.7%</td><td class="points-col">88.9</td></tr>
+        <tr><td class="td-rank">12</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/c9a84c/000?text=CN" alt=""><div><div class="td-player-name">Cristian Novelo</div></div></div></td><td>5</td><td>4</td><td>1</td><td class="col-hide">80.0%</td><td class="col-hide">61.5%</td><td class="points-col">87.7</td></tr>
+        <tr><td class="td-rank">13</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="players/Leroy Jacob.jpeg" alt=""><div><div class="td-player-name">Leroy Jacobs</div></div></div></td><td>3</td><td>3</td><td>0</td><td class="col-hide">100.0%</td><td class="col-hide">75.0%</td><td class="points-col">87.5</td></tr>
+        <tr><td class="td-rank">14</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=NG" alt=""><div><div class="td-player-name">Nazir Guerra</div></div></div></td><td>8</td><td>4</td><td>4</td><td class="col-hide">50.0%</td><td class="col-hide">43.1%</td><td class="points-col">85.7</td></tr>
+        <tr><td class="td-rank">15</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=ZM" alt=""><div><div class="td-player-name">Zair Montalvo</div></div></div></td><td>2</td><td>2</td><td>0</td><td class="col-hide">100.0%</td><td class="col-hide">71.4%</td><td class="points-col">85.5</td></tr>
+        <tr><td class="td-rank">16</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/c9a84c/000?text=HW" alt=""><div><div class="td-player-name">Harrington Williams</div></div></div></td><td>5</td><td>4</td><td>1</td><td class="col-hide">80.0%</td><td class="col-hide">62.5%</td><td class="points-col">83.8</td></tr>
+        <tr><td class="td-rank">17</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=SG" alt=""><div><div class="td-player-name">Saul Garcia</div></div></div></td><td>3</td><td>2</td><td>1</td><td class="col-hide">66.7%</td><td class="col-hide">63.2%</td><td class="points-col">80.8</td></tr>
+        <tr><td class="td-rank">18</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/c9a84c/000?text=EB" alt=""><div><div class="td-player-name">Eder Bautista</div></div></div></td><td>9</td><td>4</td><td>5</td><td class="col-hide">44.4%</td><td class="col-hide">44.4%</td><td class="points-col">80.6</td></tr>
+        <tr><td class="td-rank">19</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=EN" alt=""><div><div class="td-player-name">Edilberto Novelo</div></div></div></td><td>7</td><td>4</td><td>3</td><td class="col-hide">57.1%</td><td class="col-hide">53.7%</td><td class="points-col">79.7</td></tr>
+        <tr><td class="td-rank">20</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=JP" alt=""><div><div class="td-player-name">Jair Pana</div></div></div></td><td>8</td><td>4</td><td>4</td><td class="col-hide">50.0%</td><td class="col-hide">49.2%</td><td class="points-col">79.7</td></tr>
+        <tr><td class="td-rank">21</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=OR" alt=""><div><div class="td-player-name">Oscar Reyes</div></div></div></td><td>8</td><td>4</td><td>4</td><td class="col-hide">50.0%</td><td class="col-hide">48.4%</td><td class="points-col">79.5</td></tr>
+        <tr><td class="td-rank">22</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=CC" alt=""><div><div class="td-player-name">Cesar Cal</div></div></div></td><td>6</td><td>4</td><td>2</td><td class="col-hide">66.7%</td><td class="col-hide">53.3%</td><td class="points-col">79.3</td></tr>
+        <tr><td class="td-rank">23</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=MA" alt=""><div><div class="td-player-name">Moises Aguilar</div></div></div></td><td>6</td><td>4</td><td>2</td><td class="col-hide">66.7%</td><td class="col-hide">48.9%</td><td class="points-col">78.0</td></tr>
+        <tr><td class="td-rank">24</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/c9a84c/000?text=HC" alt=""><div><div class="td-player-name">Hiram Canul</div></div></div></td><td>4</td><td>3</td><td>1</td><td class="col-hide">75.0%</td><td class="col-hide">63.3%</td><td class="points-col">76.5</td></tr>
+        <tr><td class="td-rank">25</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=JR" alt=""><div><div class="td-player-name">Juan Reyes</div></div></div></td><td>7</td><td>3</td><td>4</td><td class="col-hide">42.9%</td><td class="col-hide">45.8%</td><td class="points-col">70.2</td></tr>
+        <tr><td class="td-rank">26</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=HN" alt=""><div><div class="td-player-name">Henry Nuñez</div></div></div></td><td>6</td><td>3</td><td>3</td><td class="col-hide">50.0%</td><td class="col-hide">47.7%</td><td class="points-col">69.3</td></tr>
+        <tr><td class="td-rank">27</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=FC" alt=""><div><div class="td-player-name">Francisco Chata</div></div></div></td><td>9</td><td>2</td><td>7</td><td class="col-hide">22.2%</td><td class="col-hide">43.5%</td><td class="points-col">69.2</td></tr>
+        <tr><td class="td-rank">28</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=LL" alt=""><div><div class="td-player-name">Lorenzo Leonardo</div></div></div></td><td>9</td><td>2</td><td>7</td><td class="col-hide">22.2%</td><td class="col-hide">40.0%</td><td class="points-col">68.1</td></tr>
+        <tr><td class="td-rank">29</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=MA" alt=""><div><div class="td-player-name">Michael Ash</div></div></div></td><td>9</td><td>2</td><td>7</td><td class="col-hide">22.2%</td><td class="col-hide">36.1%</td><td class="points-col">66.9</td></tr>
+        <tr><td class="td-rank">30</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=RJ" alt=""><div><div class="td-player-name">Rudolph Jacobs</div></div></div></td><td>6</td><td>2</td><td>4</td><td class="col-hide">33.3%</td><td class="col-hide">51.0%</td><td class="points-col">65.1</td></tr>
+        <tr><td class="td-rank">31</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=KY" alt=""><div><div class="td-player-name">Kai Hua Yu</div></div></div></td><td>4</td><td>2</td><td>2</td><td class="col-hide">50.0%</td><td class="col-hide">57.1%</td><td class="points-col">62.1</td></tr>
+        <tr><td class="td-rank">32</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=OY" alt=""><div><div class="td-player-name">Osmar Yam</div></div></div></td><td>7</td><td>2</td><td>5</td><td class="col-hide">28.6%</td><td class="col-hide">41.5%</td><td class="points-col">61.7</td></tr>
+        <tr><td class="td-rank">33</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/c9a84c/000?text=RM" alt=""><div><div class="td-player-name">Ramon Moreno</div></div></div></td><td>4</td><td>2</td><td>2</td><td class="col-hide">50.0%</td><td class="col-hide">53.1%</td><td class="points-col">60.9</td></tr>
+        <tr><td class="td-rank">34</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=R" alt=""><div><div class="td-player-name">Romaldo</div></div></div></td><td>5</td><td>2</td><td>3</td><td class="col-hide">40.0%</td><td class="col-hide">52.8%</td><td class="points-col">60.8</td></tr>
+        <tr><td class="td-rank">35</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=SM" alt=""><div><div class="td-player-name">Simon Montes</div></div></div></td><td>6</td><td>2</td><td>4</td><td class="col-hide">33.3%</td><td class="col-hide">35.9%</td><td class="points-col">60.3</td></tr>
+        <tr><td class="td-rank">36</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=ID" alt=""><div><div class="td-player-name">Ines Duran</div></div></div></td><td>4</td><td>2</td><td>2</td><td class="col-hide">50.0%</td><td class="col-hide">48.0%</td><td class="points-col">59.4</td></tr>
+        <tr><td class="td-rank">37</td><td><span class="class-badge class-a">A</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/c9a84c/000?text=JN" alt=""><div><div class="td-player-name">Jose Noh</div></div></div></td><td>6</td><td>2</td><td>4</td><td class="col-hide">33.3%</td><td class="col-hide">40.5%</td><td class="points-col">58.8</td></tr>
+        <tr><td class="td-rank">38</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=CC" alt=""><div><div class="td-player-name">Cristian Chan</div></div></div></td><td>2</td><td>1</td><td>1</td><td class="col-hide">50.0%</td><td class="col-hide">42.9%</td><td class="points-col">57.5</td></tr>
+        <tr><td class="td-rank">39</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=AR" alt=""><div><div class="td-player-name">Adir Rosado</div></div></div></td><td>3</td><td>1</td><td>2</td><td class="col-hide">33.3%</td><td class="col-hide">50.0%</td><td class="points-col">51.4</td></tr>
+        <tr><td class="td-rank">40</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=GO" alt=""><div><div class="td-player-name">Gaspar Osorio</div></div></div></td><td>3</td><td>1</td><td>2</td><td class="col-hide">33.3%</td><td class="col-hide">42.9%</td><td class="points-col">46.7</td></tr>
+        <tr><td class="td-rank">41</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=LC" alt=""><div><div class="td-player-name">Lucas Titus Coc</div></div></div></td><td>4</td><td>1</td><td>3</td><td class="col-hide">25.0%</td><td class="col-hide">43.8%</td><td class="points-col">45.6</td></tr>
+        <tr><td class="td-rank">42</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=RR" alt=""><div><div class="td-player-name">Richard Reid</div></div></div></td><td>3</td><td>1</td><td>2</td><td class="col-hide">33.3%</td><td class="col-hide">44.0%</td><td class="points-col">44.9</td></tr>
+        <tr><td class="td-rank">43</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=EM" alt=""><div><div class="td-player-name">Emilio Martinez</div></div></div></td><td>7</td><td>0</td><td>7</td><td class="col-hide">0.0%</td><td class="col-hide">14.6%</td><td class="points-col">39.4</td></tr>
+        <tr><td class="td-rank">44</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=JW" alt=""><div><div class="td-player-name">Jacob Wiebe</div></div></div></td><td>4</td><td>0</td><td>4</td><td class="col-hide">0.0%</td><td class="col-hide">41.2%</td><td class="points-col">34.0</td></tr>
+        <tr><td class="td-rank">45</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=LC" alt=""><div><div class="td-player-name">Luis Caal</div></div></div></td><td>3</td><td>0</td><td>3</td><td class="col-hide">0.0%</td><td class="col-hide">25.0%</td><td class="points-col">22.5</td></tr>
+        <tr><td class="td-rank">46</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=AC" alt=""><div><div class="td-player-name">Anthony Chen</div></div></div></td><td>2</td><td>0</td><td>2</td><td class="col-hide">0.0%</td><td class="col-hide">23.1%</td><td class="points-col">16.9</td></tr>
+        <tr><td class="td-rank">47</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=LJ" alt=""><div><div class="td-player-name">Lorenzo Jr</div></div></div></td><td>1</td><td>0</td><td>1</td><td class="col-hide">0.0%</td><td class="col-hide">28.6%</td><td class="points-col">13.6</td></tr>
+        <tr><td class="td-rank">48</td><td><span class="class-badge class-c">C</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/333/888?text=HT" alt=""><div><div class="td-player-name">Hector Talango</div></div></div></td><td>2</td><td>0</td><td>2</td><td class="col-hide">0.0%</td><td class="col-hide">9.1%</td><td class="points-col">12.7</td></tr>
+        <tr><td class="td-rank">49</td><td><span class="class-badge class-b">B</span></td><td><div class="td-player"><img src="https://placehold.co/34x34/2e2e2e/aaa?text=SH" alt=""><div><div class="td-player-name">Stephen Hall</div></div></div></td><td>1</td><td>0</td><td>1</td><td class="col-hide">0.0%</td><td class="col-hide">16.7%</td><td class="points-col">10.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Orange Walk Billiards Association (OWBA)</strong> &nbsp;&mdash;&nbsp; Orange Walk, Belize</p>
+  <p style="margin-top:6px;">For inquiries contact the association president &nbsp;|&nbsp; &copy; 2026 OWBA</p>
+</footer>
+
+</body>
+</html>

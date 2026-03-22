@@ -1,0 +1,493 @@
+Chata's vs Emalee.2
+2026-02-09
+
+Cristian 1-5 Hiram
+Miguel 5-3 Oscar
+Javier 5-1 Juan
+
+Result: Chata's 2-1
+
+========================================
+
+Chata's vs Morning Star
+2026-02-09
+
+Javier 3-5 Nazir
+Miguel 2-5 Nain
+Daniel 5-1 Kenneth
+
+Result: Chata's 1-2
+
+========================================
+
+Chata's vs Pool Dawgs
+2026-02-09
+
+Miguel 5-4 Francisco
+Saul 5-1 Emilio
+Daniel 5-1 Hector
+
+Result: Chata's 3-0
+
+========================================
+
+Chata's vs Snipers
+2026-02-09
+
+Saul 5-1 Henry
+Javier 5-3 Ramon
+Daniel 5-1 Jair
+
+Result: Chata's 3-0
+
+========================================
+
+Dados vs Chata's
+2026-02-09
+
+Eder 3-5 Miguel
+Moises 5-4 Javier
+Eddieberto 3-5 Cristian
+
+Result: Dados 1-2
+
+========================================
+
+Dados vs Morning Star
+2026-02-09
+
+Eddieberto 5-1 Kenneth
+Eder 1-5 Nain
+Kai 5-0 Nazir
+
+Result: Dados 2-1
+
+========================================
+
+Dados vs Pool Dawgs
+2026-02-09
+
+Eder 5-4 Francisco
+Kai 5-2 Emilio
+Eddieberto 5-2 Luis
+
+Result: Dados 3-0
+
+========================================
+
+Dados vs Stix & Shots.2
+2026-02-09
+
+Kai 3-5 Ricardo
+Moises 5-4 Rudolph
+Eder 2-5 Ernest
+
+Result: Stix & Shots.2 2-1
+
+========================================
+
+Emalee.1 vs Emalee.2
+2026-02-09
+
+Ash 2-5 Williams
+Osmar 2-5 Juan
+Jose 5-1 Oscar
+
+Result: Emalee.1 1-2
+
+========================================
+
+Emalee.1 vs Hashtag
+2026-02-09
+
+Ash 1-5 Heraldo
+Jose 5-4 Lorenzo
+Osmar 0-5 Romaldo
+
+Result: Hashtag 2-1
+
+========================================
+
+Emalee.2 vs Hashtag
+2026-02-09
+
+Juan 2-5 Heraldo
+Reid 5-4 Romaldo
+Williams 5-2 Lorenzo
+
+Result: Emalee.2 2-1
+
+========================================
+
+Hashtag vs Chata's
+2026-02-09
+
+Lorenzo 2-5 Miguel
+Heraldo 5-2 Javier
+Ines 1-5 Daniel
+
+Result: Hashtag 1-2
+
+========================================
+
+Hashtag vs Snipers
+2026-02-09
+
+Heraldo 3-5 Henry
+Lorenzo 3-5 Jair
+Romaldo 4-5 Jose
+
+Result: Hashtag 0-3
+
+========================================
+
+Morning Star vs Emalee.1
+2026-02-09
+
+Nazir 5-2 Jose
+Nain 5-2 Ash
+Kenneth 5-4 Osmar
+
+Result: Morning Star 3-0
+
+========================================
+
+Morning Star vs Emalee.2
+2026-02-09
+
+Nain 3-5 Hiram
+Kenneth 5-1 Juan
+Adir 2-5 Oscar
+
+Result: Morning Star 1-2
+
+========================================
+
+Morning Star vs Hashtag
+2026-02-09
+
+Kenneth 5-4 Lorenzo
+Nain 5-1 Ines
+Nazir 2-5 Heraldo
+
+Result: Morning Star 2-1
+
+========================================
+
+Pool Dawgs vs Stix & Shots
+2026-02-09
+
+Cesar 1-5 Cristian
+Luis 1-5 Zair P.
+Francisco 5-4 Jacob
+
+Result: Stix & Shots.2-1
+
+========================================
+
+Snipers vs Emalee.1
+2026-02-09
+
+Jose 5-3 Jose
+Titus 4-5 Ash
+Jair 3-5 Osmar
+
+Result: Snipers 1-2
+
+========================================
+
+Snipers vs Emalee.2
+2026-02-09
+
+Henry 5-4 Reid
+Jair 5-0 Williams
+Ramon 5-2 Oscar
+
+Result: Snipers 3-0
+
+========================================
+
+Stix & Shots.2 vs Hashtag
+2026-02-09
+
+Ricardo 5-1 Romaldo
+Ernest 5-3 Heraldo
+Simon 5-1 Lorenzo
+
+Result: Stix & Shots.2 3-0
+
+========================================
+
+Stix & Shots.2 vs Morning Star
+2026-02-09
+
+Ernest 5-1 Nazir
+Simon 1-5 Nain
+Rudolph 4-5 Kenneth
+
+Result: Stix & Shots.2 1-2
+
+========================================
+
+Stix & Shots vs Emalee.1
+2026-02-09
+
+Zair P. 5-2 Jose
+Cristian 5-3 Ash
+Argel 5-3 Osmar
+
+Result: Stix & Shots 3-0
+
+========================================
+
+Stix & Shots vs Emalee.2
+2026-02-09
+
+Zair P. 5-4 Hiram
+Cristian 4-5 Oscar
+Argel 2-5 Juan
+
+Result: Stix & Shots 1-2
+
+========================================
+
+Stix & Shots vs Hashtag
+2026-02-09
+
+Jacob 4-5 Lorenzo
+Zair P. 5-3 Heraldo
+Argel 2-5 Romaldo
+
+Result: Stix & Shots 1-2
+
+========================================
+
+Dados vs Emalee.2
+2026-02-13
+
+Eddieberto 5-3 Juan
+Moises 1-5 Williams
+Eder 5-4 Oscar
+
+Result: Dados 2-1
+
+========================================
+
+Stix & Shots vs Stix & Shots.2
+2026-02-13
+
+Zair P. 2-5 Ernest
+Gaspar 1-5 Ricardo
+Argel 5-1 Simon
+
+Result: Stix & Shots.2 2-1
+
+========================================
+
+Dados vs Emalee.1
+2026-02-14
+
+Eddieberto 3-5 Osmar
+Eder 5-0 Jose
+Moises 5-2 Ash
+
+Result: Dados 2-1
+
+========================================
+
+Hashtag vs Pool Dawgs
+2026-02-14
+
+Lorenzo 2-5 Cesar
+Ines 5-1 Francisco
+Heraldo 5-0 Emilio
+
+Result: Hashtag 2-1
+
+========================================
+
+Chata's vs Stix & Shots.2
+2026-02-15
+
+Javier 2-5 Ricardo
+Miguel 4-5 Simon
+Daniel 5-4 Rudolph
+
+Result: Stix & Shots.2 2-1
+
+========================================
+
+Dados vs Hashtag
+2026-02-15
+
+Moises 2-5 Ines
+Eder 5-2 Lorenzo Jr
+Kai 3-5 Lorenzo
+
+Result: Hashtag 2-1
+
+========================================
+
+Emalee.1 vs Pool Dawgs
+2026-02-15
+
+Osmar 3-5 Cesar
+Leroy 5-2 Francisco
+Ash 5-0 Hector
+
+Result: Emalee.1 2-1
+
+========================================
+
+Pool Dawgs vs Stix & Shots.2
+2026-02-15
+
+Cesar 3-5 Rudolph
+Francisco 5-0 Simon
+Emilio 0-5 Ernest
+
+Result: Stix & Shots.2 2-1
+
+========================================
+
+Snipers vs Pool Dawgs
+2026-02-15
+
+Ramon 4-5 Cesar
+Jair 5-3 Francisco
+Henry 5-1 Emilio
+
+Result: Snipers 2-1
+
+========================================
+
+Stix & Shots.2 vs Emalee.2
+2026-02-15
+
+Simon 2-5 Hiram
+Ernest 5-2 Reid
+Rudolph 4-5 Oscar
+
+Result: Emalee.2 2-1
+
+========================================
+
+Stix & Shots vs Chata's
+2026-02-15
+
+Jacob 3-5 Javier
+Gaspar 3-5 Miguel
+Argel 5-2 Daniel
+
+Result: Chata's 2-1
+
+========================================
+
+Stix & Shots vs Snipers
+2026-02-15
+
+Gaspar 5-2 Titus
+Jacob 3-5 Ramon
+Argel 5-1 Jair
+
+Result: Stix & Shots.2-1
+
+========================================
+
+Dados vs Snipers
+2026-02-20
+
+Eddieberto 5-4 Henry
+Eder 2-5 Jose
+Moises 5-4 Jair
+
+Result: Dados 2-1
+
+========================================
+
+Emalee.2 vs Pool Dawgs
+2026-02-20
+
+Williams 5-2 Francisco
+Juan 5-2 Luis
+Oscar 5-2 Emilio
+
+Result: Emalee.2 3-0
+
+========================================
+
+Morning Star vs Pool Dawgs
+2026-02-21
+
+Kenneth 2-5 Cesar
+Adir 5-0 Emilio
+Nazir 5-4 Francisco
+
+Result: Morning Star 2-1
+
+========================================
+
+Stix & Shots.2 vs Snipers
+2026-02-21
+
+Ernest 2-5 Jose
+Ricardo 3-5 Titus
+Zair M. 5-1 Henry
+
+Result: Snipers 2-1
+
+========================================
+
+Emalee.1 vs Chata's
+2026-02-22
+
+Leroy 5-2 Saul
+Ash 0-5 Javier
+Anthony 0-5 Miguel
+
+Result: Chata's 2-1
+
+========================================
+
+Morning Star vs Snipers
+2026-02-22
+
+Nazir 2-5 Jose
+Nain 5-3 Titus
+Kenneth 4-5 Jair
+
+Result: Snipers 2-1
+
+========================================
+
+Stix & Shots.2 vs Emalee.1
+2026-02-22
+
+Ernest 1-5 Leroy
+Zair M. 5-3 Anthony
+Rudolph 5-2 Ash
+
+Result: Stix & Shots.2 2-1
+
+========================================
+
+Stix & Shots vs Dados
+2026-02-22
+
+Cristian 5-3 Eddieberto
+Zair P. 5-0 Eder
+Argel 5-1 Stephen
+
+Result: Stix & Shots 3-0
+
+========================================
+
+Stix & Shots vs Morning Star
+2026-02-22
+
+Zair P. 5-4 Kenneth
+Cristian 5-3 Adir
+Argel 4-5 Nazir
+
+Result: Stix & Shots 2-1
+

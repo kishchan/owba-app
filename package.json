@@ -1,0 +1,14 @@
+{
+  "name": "owba-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && node index.js",
+    "dev:client": "cd client && npm run dev",
+    "dev": "npm run dev:server & npm run dev:client",
+    "seed": "cd server && node seed.js",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "start": "cd server && node index.js"
+  }
+}

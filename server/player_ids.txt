@@ -1,0 +1,53 @@
+OWBA Player Credentials - Updated 2026-03-22T03:49:24.401Z
+==========================================================
+OWBA ID | Player Name | Role
+----------------------------------------------------------
+OWBA-6935 | Miguel Chata
+OWBA-7592 | Daniel Chata
+OWBA-4596 | Nain Rosado
+OWBA-1237 | Zair Perera
+OWBA-5713 | Ernest Arzu
+OWBA-6849 | Javier Chata
+OWBA-1762 | Jose Chata
+OWBA-1591 | Argel Perera
+OWBA-1578 | Heraldo Carballo
+OWBA-2622 | Kenneth Dawson
+OWBA-9157 | Ricardo Carcaño
+OWBA-8951 | Cristian Novelo
+OWBA-1964 | Leroy Jacobs
+OWBA-5793 | Nazir Guerra
+OWBA-3728 | Zair Montalvo
+OWBA-8357 | Harrington Williams
+OWBA-6388 | Saul Garcia
+OWBA-3380 | Eder Bautista
+OWBA-5533 | Edilberto Novelo
+OWBA-3064 | Jair Pana
+OWBA-1850 | Oscar Reyes
+OWBA-5302 | Cesar Cal
+OWBA-2020 | Moises Aguilar
+OWBA-4622 | Hiram Canul
+OWBA-2302 | Juan Reyes
+OWBA-6522 | Henry Nuñez
+OWBA-8665 | Francisco Chata
+OWBA-2713 | Lorenzo Leonardo
+OWBA-6396 | Michael Ash
+OWBA-9803 | Rudolph Jacobs
+OWBA-2364 | Kai Hua Yu
+OWBA-6307 | Osmar Yam
+OWBA-1133 | Ramon Moreno
+OWBA-5726 | Romaldo
+OWBA-8586 | Simon Montes
+OWBA-3299 | Ines Duran
+OWBA-7275 | Jose Noh
+OWBA-038 | Cristian Chan (SUPER ADMIN)
+OWBA-9198 | Adir Rosado
+OWBA-5622 | Gaspar Osorio
+OWBA-6549 | Lucas Titus Coc
+OWBA-6628 | Richard Reid
+OWBA-2610 | Emilio Martinez
+OWBA-7834 | Jacob Wiebe
+OWBA-9129 | Luis Caal
+OWBA-6814 | Anthony Chen
+OWBA-5706 | Lorenzo Jr
+OWBA-6806 | Hector Talango
+OWBA-5586 | Stephen Hall

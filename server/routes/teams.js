@@ -35,7 +35,7 @@ router.get('/tournament/:tournamentId', (req, res) => {
 // POST /tournament/:tournamentId - Admin only. Create team.
 router.post('/tournament/:tournamentId', authenticate, requireAdmin, (req, res) => {
   try {
-    const { name, player_ids } = req.body;
+    const { name, player_ids, captain_id, designator_id } = req.body;
 
     if (!name) {
       return res.status(400).json({ error: 'Team name is required' });
@@ -69,8 +69,8 @@ router.post('/tournament/:tournamentId', authenticate, requireAdmin, (req, res) 
     }
 
     const result = db.prepare(
-      'INSERT INTO teams (tournament_id, name) VALUES (?, ?)'
-    ).run(req.params.tournamentId, name);
+      'INSERT INTO teams (tournament_id, name, captain_id, designator_id) VALUES (?, ?, ?, ?)'
+    ).run(req.params.tournamentId, name, captain_id || null, designator_id || null);
 
     const teamId = result.lastInsertRowid;
 

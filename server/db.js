@@ -133,6 +133,7 @@ export function initializeDatabase() {
       date TEXT,
       status TEXT DEFAULT 'upcoming' CHECK(status IN ('upcoming', 'past')),
       tags TEXT,
+      image_url TEXT,
       created_by INTEGER REFERENCES players(id),
       created_at TEXT DEFAULT (datetime('now'))
     );

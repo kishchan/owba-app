@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { initializeDatabase } from './db.js';
+import { execSync } from 'child_process';
+import db, { initializeDatabase } from './db.js';
 import authRoutes from './routes/auth.js';
 import playerRoutes from './routes/players.js';
 import tournamentRoutes from './routes/tournaments.js';
@@ -17,6 +18,14 @@ const __dirname = dirname(__filename);
 
 // Initialize database tables
 initializeDatabase();
+
+// Auto-seed if database is empty (e.g., fresh deploy on Render free tier)
+const playerCount = db.prepare('SELECT COUNT(*) as count FROM players').get().count;
+if (playerCount === 0) {
+  console.log('Empty database detected — running seed...');
+  execSync('node seed.js', { cwd: __dirname, stdio: 'inherit' });
+  console.log('Auto-seed complete.');
+}
 
 const app = express();
 const PORT = process.env.PORT || 3001;

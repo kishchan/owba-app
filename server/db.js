@@ -5,11 +5,7 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Use persistent disk path on Render, fallback to local for development
-const dataDir = process.env.NODE_ENV === 'production'
-  ? join(__dirname, 'data')
-  : __dirname;
-const db = new Database(join(dataDir, 'owba.db'));
+const db = new Database(join(__dirname, 'owba.db'));
 
 // Enable WAL mode for better performance
 db.pragma('journal_mode = WAL');

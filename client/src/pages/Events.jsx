@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useAuth } from '../context/AuthContext';
 
 const API_BASE = '/api';
@@ -238,28 +239,62 @@ function EventCard({ event, isAdmin, onEdit, onDelete }) {
         </div>
       </div>
 
-      {/* Full-size image modal */}
-      {showFullImage && event.image_url && (
+      {/* Full-size image modal — portaled to body to avoid transform parent issues */}
+      {showFullImage && event.image_url && createPortal(
         <div
-          className="fixed inset-0 z-[9999] bg-black/85 flex items-center justify-center p-4"
-          style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: 99999,
+            backgroundColor: 'rgba(0,0,0,0.88)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px',
+          }}
           onClick={() => setShowFullImage(false)}
         >
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
+          <div style={{ position: 'relative' }} onClick={(e) => e.stopPropagation()}>
             <img
               src={event.image_url}
               alt={event.title}
-              className="rounded-lg"
-              style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain' }}
+              style={{
+                maxWidth: '90vw',
+                maxHeight: '85vh',
+                objectFit: 'contain',
+                borderRadius: '8px',
+              }}
             />
             <button
               onClick={() => setShowFullImage(false)}
-              className="absolute -top-3 -right-3 bg-dark border border-gold/40 text-light-gold rounded-full w-8 h-8 flex items-center justify-center text-lg hover:bg-gold hover:text-dark transition-colors z-10"
+              style={{
+                position: 'absolute',
+                top: '-12px',
+                right: '-12px',
+                background: '#0d0d0d',
+                border: '1px solid rgba(201,168,76,0.4)',
+                color: '#f0d070',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '18px',
+                cursor: 'pointer',
+                zIndex: 10,
+              }}
             >
               &times;
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

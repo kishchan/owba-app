@@ -19,14 +19,6 @@ const __dirname = dirname(__filename);
 // Initialize database tables
 initializeDatabase();
 
-// Auto-seed if database is empty (e.g., fresh deploy on Render free tier)
-const playerCount = db.prepare('SELECT COUNT(*) as count FROM players').get().count;
-if (playerCount === 0) {
-  console.log('Empty database detected — running seed...');
-  execSync('node seed.js', { cwd: __dirname, stdio: 'inherit' });
-  console.log('Auto-seed complete.');
-}
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -62,4 +54,12 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`OWBA Server running on port ${PORT}`);
   console.log(`API available at http://localhost:${PORT}/api`);
+
+  // Auto-seed if database is empty (after server starts listening so health checks pass)
+  const playerCount = db.prepare('SELECT COUNT(*) as count FROM players').get().count;
+  if (playerCount === 0) {
+    console.log('Empty database detected — running seed...');
+    execSync('node seed.js', { cwd: __dirname, stdio: 'inherit' });
+    console.log('Auto-seed complete.');
+  }
 });

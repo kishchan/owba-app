@@ -757,8 +757,8 @@ console.log(`\nSuper Admin: OWBA-038 (Cristian Chan)`);
 console.log(`Passwords saved to: player_passwords.txt`);
 // Seed events
 const insertEvent = db.prepare(`
-  INSERT INTO events (title, description, date, status, tags, created_by)
-  VALUES (?, ?, ?, ?, ?, ?)
+  INSERT INTO events (title, description, date, status, tags, created_by, image_url)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
 `);
 
 const adminId = playerIdMap['OWBA-038'];
@@ -769,7 +769,8 @@ insertEvent.run(
   '2026-04-15',
   'upcoming',
   'National,Upcoming',
-  adminId
+  adminId,
+  '/flyers/king-of-the-table.jpeg'
 );
 
 insertEvent.run(
@@ -778,7 +779,8 @@ insertEvent.run(
   '2026-04-01',
   'upcoming',
   'Upcoming',
-  adminId
+  adminId,
+  '/flyers/king-james-partners-tournament.jpeg'
 );
 
 insertEvent.run(
@@ -787,7 +789,8 @@ insertEvent.run(
   '2026-03-28',
   'upcoming',
   'Upcoming',
-  adminId
+  adminId,
+  '/flyers/chill-n-ice-pool-showdown.jpeg'
 );
 
 insertEvent.run(
@@ -796,7 +799,8 @@ insertEvent.run(
   '2026-05-01',
   'upcoming',
   'National,Upcoming',
-  adminId
+  adminId,
+  '/flyers/top-players-clash.jpeg'
 );
 
 insertEvent.run(
@@ -805,7 +809,8 @@ insertEvent.run(
   '2026-02-15',
   'past',
   'Past',
-  adminId
+  adminId,
+  '/flyers/partner-tournament-js-coolspot.jpeg'
 );
 
 console.log('Seeded 5 events.');
